@@ -40,8 +40,9 @@ public class LibroService implements LibroUseCase {
 
 	@Override
 	public ResponseService prestar(RequestService req) {
+		
 		//validar si el isbn del libro es palidrome ("los libros palíndromos solo se pueden utilizar en la biblioteca")
-		//validar si el los digitos suman mas de 30y calcular fechaEntregaMaxima (15 dias, tener en cuenta fines de semana)
+		//validar si el los digitos suman mas de 30 y calcular fechaEntregaMaxima (15 dias, tener en cuenta fines de semana)
 		//insertar en la tabla prestamo
 		return null;
 	}
