@@ -31,17 +31,17 @@ public class LibroController {
 
 	@PostMapping("/crear")
 	public ResponseEntity<ResponseService> crear(@Valid @RequestBody RequestService req) throws Exception {
-		return new ResponseEntity<>(new ResponseService("hola mundo"), HttpStatus.OK);
+		return new ResponseEntity<>(libro.crear(req), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/eliminar")
 	public ResponseEntity<ResponseService> eliminar(@Valid @RequestBody RequestService req) throws Exception {
-		return new ResponseEntity<>(new ResponseService("hola mundo"), HttpStatus.OK);
+		return new ResponseEntity<>(libro.eliminar(req), HttpStatus.OK);
 	}
 
 	@PutMapping("/prestar")
 	public ResponseEntity<ResponseService> prestar(@Valid @RequestBody RequestService req) throws Exception {
-		return new ResponseEntity<>(new ResponseService("hola mundo"), HttpStatus.OK);
+		return new ResponseEntity<>(libro.prestar(req), HttpStatus.OK);
 	}
 
 }

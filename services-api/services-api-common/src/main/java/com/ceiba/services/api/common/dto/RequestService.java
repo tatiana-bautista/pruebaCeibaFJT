@@ -12,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestService {
+	private String id;
 	private String nombre;
 	private String isbn;
 	private String estado;

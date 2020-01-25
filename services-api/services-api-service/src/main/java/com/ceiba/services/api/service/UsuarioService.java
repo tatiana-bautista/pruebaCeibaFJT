@@ -13,7 +13,13 @@ import lombok.RequiredArgsConstructor;
 public class UsuarioService implements UsuarioUseCase {
 	@Override
 	public ResponseService consultar(RequestService req) {
-		// TODO Auto-generated method stub
+		if (!req.getId().isEmpty()) {
+			// buscar por id
+		} else if (!req.getNombre().isEmpty()) {
+			//buscar por nombre
+		} else
+			// devolver todos
+			;
 		return null;
 	}
 
