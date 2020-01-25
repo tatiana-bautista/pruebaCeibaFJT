@@ -19,7 +19,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -33,11 +33,11 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-		<!--dependency>
-			<groupId>com.asai.futurex</groupId>
-			<artifactId>futurex-api-common</artifactId>
+		<dependency>
+			<groupId>com.ceiba</groupId>
+			<artifactId>services-api-common</artifactId>
 			<version>${project.version}</version>
-		</dependency-->
+		</dependency>
 		<dependency>
 			<groupId>com.ceiba</groupId>
 			<artifactId>services-api-service</artifactId>
