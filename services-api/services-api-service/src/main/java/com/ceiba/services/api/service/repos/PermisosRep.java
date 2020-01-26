@@ -1,4 +1,4 @@
-package com.ceiba.services.api.service.persistence;
+package com.ceiba.services.api.service.repos;
 
 import org.springframework.data.repository.CrudRepository;
 

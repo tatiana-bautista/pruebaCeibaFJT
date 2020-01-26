@@ -40,14 +40,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ceiba</groupId>
-			<artifactId>services-api-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- <dependency> <groupId>com.asai.futurex</groupId> <artifactId>futurex-api-persistence</artifactId> 
-			<version>${project.version}</version> </dependency> -->
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>

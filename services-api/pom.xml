@@ -21,6 +21,5 @@
 		<module>services-api-web</module>
 		<module>services-api-app</module>
 		<module>services-api-service</module>
-		<module>services-api-common</module>
 	</modules>
 </project>
