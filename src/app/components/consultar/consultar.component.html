@@ -1,0 +1,14 @@
+<div class="container">
+    <h4>Hacer prestamo</h4>
+    <hr>
+    <div class="col">
+        <input type="text" #terminoLibro (keyup)="buscarLibros()" class="form-control" placeholder="Buscar libro">
+        <div class="card">            
+            <ul *ngFor="let libro of libros" class="list-group list-group-flush">              
+              <li class="list-group-item">{{libro.nombre}}</li>
+            </ul>
+          </div>
+          <hr>
+        <input type="text" #terminoUsuario (keyup)="buscarUsuario(terminoUsuario.value)" class="form-control" placeholder="Buscar usuario">
+    </div>    
+</div>

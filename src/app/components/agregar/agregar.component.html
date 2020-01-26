@@ -1,0 +1,17 @@
+<div class="container">
+    <h4>Agregar libro</h4>
+    <hr>
+   <form #agregarForm="ngForm" (ngSubmit)="onSubmit(agregarForm)" class="col-lg10" action="">
+       <p>
+           <label>Nombre</label>
+           <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="libro.nombre" class="form-control" required>
+       </p>
+       <p>
+           <label>
+               ISBN
+           </label>
+           <input type="text" name="isbn" #isbn="ngModel" [(ngModel)]="libro.isbn"  class="form-control " required>
+       </p>
+       <input type="submit" value="Agregar" class="btn btn-primary" required>
+
+   </form>
