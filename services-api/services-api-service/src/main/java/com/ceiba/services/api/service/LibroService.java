@@ -1,17 +1,18 @@
 package com.ceiba.services.api.service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ceiba.services.api.common.dto.RequestService;
-import com.ceiba.services.api.common.dto.ResponseService;
+import com.ceiba.services.api.service.common.dto.RequestService;
+import com.ceiba.services.api.service.common.dto.ResponseService;
 import com.ceiba.services.api.service.domain.Libro;
 import com.ceiba.services.api.service.domain.Prestamo;
-import com.ceiba.services.api.service.domain.Usuario;
+import com.ceiba.services.api.service.domain.Usuarios;
 import com.ceiba.services.api.service.port.in.LibroUseCase;
 import com.ceiba.services.api.service.port.out.LibroPort;
 import com.ceiba.services.api.service.port.out.PrestamoPort;
@@ -30,7 +31,7 @@ public class LibroService implements LibroUseCase {
 	public ResponseService consultar(RequestService req) {
 		ResponseService resp = new ResponseService();
 		if (!req.getId().isEmpty()) {
-			resp.setLibro(libroPort.getLibro(Long.parseLong(req.getId())));
+			resp.setLibro(libroPort.getLibro(Integer.parseInt(req.getId())));
 		} else if (!req.getIsbn().isEmpty()) {
 			if (!req.getEstado().isEmpty()) {
 				resp.setLibros(libroPort.getLibrosIsbnEstado(req.getIsbn(), req.getEstado()));
@@ -52,7 +53,7 @@ public class LibroService implements LibroUseCase {
 	public ResponseService crear(RequestService req) {
 		ResponseService resp = new ResponseService();
 		if (!req.getIsbn().isEmpty()) {
-			Long ejemplar = 1L;
+			Integer ejemplar = 1;
 			Libro nuevo = new Libro();
 			nuevo.setEstado("disponible");
 			nuevo.setIsbn(req.getIsbn());
@@ -80,7 +81,7 @@ public class LibroService implements LibroUseCase {
 	public ResponseService eliminar(RequestService req) {
 		ResponseService resp = new ResponseService();
 		if (!req.getId().isEmpty()) {
-			Libro l = libroPort.getLibro(Long.parseLong(req.getId()));
+			Libro l = libroPort.getLibro(Integer.parseInt(req.getId()));
 			if (l != null)
 				if (libroPort.eliminar(l))
 					resp.setMensage("libro eliminado satisfactoriamente");
@@ -97,10 +98,10 @@ public class LibroService implements LibroUseCase {
 	public ResponseService prestar(RequestService req) {
 		ResponseService resp = new ResponseService();
 		if (!req.getIdLibro().isEmpty()) {
-			Libro l = libroPort.getLibro(Long.parseLong(req.getIdLibro()));
+			Libro l = libroPort.getLibro(Integer.parseInt(req.getIdLibro()));
 			if (l != null) {
 				if (!req.getIdUsuario().isEmpty()) {
-					Usuario u = usuarioPort.getUsuario(Long.parseLong(req.getIdUsuario()));
+					Usuarios u = usuarioPort.getUsuario(Integer.parseInt(req.getIdUsuario()));
 					if (u != null) {
 						if (!isPalindrome(l.getIsbn())) {
 							Prestamo p = new Prestamo();
@@ -108,14 +109,23 @@ public class LibroService implements LibroUseCase {
 							p.setIdUsuario(u.getId());
 							p.setFechaPrestamo(new Timestamp(new Date().getTime()));
 							if (isGreaterThan(l.getIsbn(), 30))
-								p.setFechaEntregaMaxima(
-										new java.sql.Date(calculateMaxDate(Calendar.getInstance(), 15).getTime()));
+								p.setFechaEntregaMaxima(calculateMaxDate(Calendar.getInstance(), 15));
 							if (prestamoPort.nuevo(p)) {
-								resp.setMensage("prestamo guardado satisfactoriamente");
+								if (p.getFechaEntregaMaxima() != null) {
+									String pattern = "yyyy-MM-dd";
+									SimpleDateFormat format = new SimpleDateFormat(pattern);
+//									resp.setFechaEntregaMaxima(p.getFechaEntregaMaxima());
+									resp.setMensage("Préstamo creado correctamente. La fecha de entrega máxima es: "
+											+ format.format(p.getFechaEntregaMaxima()));
+								} else
+									resp.setMensage(
+											"Préstamo creado correctamente. El libro no tiene fecha máxima de entrega.");
+
 							} else
 								resp.setError("error al guardar prestamo");
 						} else
-							resp.setError("los libros palíndromos solo se pueden utilizar en la biblioteca");
+							resp.setError(
+									"Préstamo declinado. Los libros palíndromos solo se pueden utilizar en la biblioteca");
 					} else
 						resp.setError("usuario no encontrado");
 				} else
@@ -142,14 +152,14 @@ public class LibroService implements LibroUseCase {
 		return (sum > max);
 	}
 
-	private Date calculateMaxDate(Calendar fecha, int diffDays) {
+	private java.sql.Date calculateMaxDate(Calendar fecha, int diffDays) {
 		while (diffDays > 0) {
 			if (fecha.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 				diffDays--;
 			}
 			fecha.add(Calendar.DATE, 1);
 		}
-		return fecha.getTime();
+		return new java.sql.Date(fecha.getTimeInMillis());
 	}
 
 }

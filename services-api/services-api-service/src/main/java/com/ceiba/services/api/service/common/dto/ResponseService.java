@@ -1,9 +1,10 @@
-package com.ceiba.services.api.common.dto;
+package com.ceiba.services.api.service.common.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ceiba.services.api.service.domain.Libro;
-import com.ceiba.services.api.service.domain.Usuario;
+import com.ceiba.services.api.service.domain.Usuarios;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class ResponseService {
 	private String error;
 	private Libro libro;
 	private List<Libro> libros;
-	private Usuario usuario;
-	private List<Usuario> usuarios;
+	private Usuarios usuario;
+	private List<Usuarios> usuarios;
+	private Date fechaEntregaMaxima;
 }

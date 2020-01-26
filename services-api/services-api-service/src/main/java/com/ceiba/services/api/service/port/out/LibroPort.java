@@ -18,7 +18,7 @@ public interface LibroPort {
 		}
 	}
 
-	Libro getLibro(Long id) throws LibroNotFoundException;
+	Libro getLibro(Integer id) throws LibroNotFoundException;
 
 	class LibroNotFoundException extends RuntimeException {
 		private static final long serialVersionUID = -1L;

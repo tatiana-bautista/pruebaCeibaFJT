@@ -7,15 +7,9 @@
 	<groupId>com.ceiba</groupId>
 	<artifactId>services-api</artifactId>
 	<version>0.0.1</version>
-	<packaging>pom</packaging>
 	<name>services-api</name>
 	<description>Projecto para la libreria</description>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-	</properties>
+	<packaging>pom</packaging>
 
 	<modules>
 		<module>services-api-web</module>

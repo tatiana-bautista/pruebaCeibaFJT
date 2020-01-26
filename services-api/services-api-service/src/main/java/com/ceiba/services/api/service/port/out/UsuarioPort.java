@@ -2,10 +2,10 @@ package com.ceiba.services.api.service.port.out;
 
 import java.util.List;
 
-import com.ceiba.services.api.service.domain.Usuario;
+import com.ceiba.services.api.service.domain.Usuarios;
 
 public interface UsuarioPort {
-	Usuario getUsuario(Long id) throws UsuarioNotFoundException;
+	Usuarios getUsuario(Integer id) throws UsuarioNotFoundException;
 
 	class UsuarioNotFoundException extends RuntimeException {
 		private static final long serialVersionUID = -1L;
@@ -15,7 +15,7 @@ public interface UsuarioPort {
 		}
 	}
 
-	List<Usuario> getUsuarios() throws UsuariosEmptyException;
+	List<Usuarios> getUsuarios() throws UsuariosEmptyException;
 
 	class UsuariosEmptyException extends RuntimeException {
 		private static final long serialVersionUID = -1L;
@@ -25,5 +25,5 @@ public interface UsuarioPort {
 		}
 	}
 
-	List<Usuario> getUsuariosByNombre(String nombre) throws UsuariosEmptyException;
+	List<Usuarios> getUsuariosByNombre(String nombre) throws UsuariosEmptyException;
 }

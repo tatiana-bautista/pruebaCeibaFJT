@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ceiba.services.api.common.dto.RequestService;
-import com.ceiba.services.api.common.dto.ResponseService;
+import com.ceiba.services.api.service.common.dto.RequestService;
+import com.ceiba.services.api.service.common.dto.ResponseService;
 import com.ceiba.services.api.service.port.in.UsuarioUseCase;
 
 import lombok.RequiredArgsConstructor;

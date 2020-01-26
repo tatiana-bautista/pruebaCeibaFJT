@@ -5,12 +5,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.ceiba.services.api.service.common.PersistenceAdapter;
 import com.ceiba.services.api.service.domain.Libro;
 import com.ceiba.services.api.service.port.out.LibroPort;
 import com.ceiba.services.api.service.repos.LibroRep;
 
 import lombok.RequiredArgsConstructor;
 
+@PersistenceAdapter
 @RequiredArgsConstructor
 public class LibroPersistence implements LibroPort {
 	private final LibroRep libroRepository;
@@ -21,7 +23,7 @@ public class LibroPersistence implements LibroPort {
 	}
 
 	@Override
-	public Libro getLibro(Long id) {
+	public Libro getLibro(Integer id) {
 		Libro resp = null;
 		Optional<Libro> l = libroRepository.findById(id);
 		if (l.isPresent())
