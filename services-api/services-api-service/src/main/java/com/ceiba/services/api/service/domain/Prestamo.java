@@ -25,6 +25,6 @@ public class Prestamo {
 	private long idUsuario;
 	private long idLibro;
 	private Timestamp fechaPrestamo;
-	private Date fechaEntrega;
+	private Date fechaEntregaMaxima;
 
 }

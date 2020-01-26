@@ -3,6 +3,7 @@ package com.ceiba.services.api.common.dto;
 import java.util.List;
 
 import com.ceiba.services.api.service.domain.Libro;
+import com.ceiba.services.api.service.domain.Usuario;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -20,4 +21,6 @@ public class ResponseService {
 	private String error;
 	private Libro libro;
 	private List<Libro> libros;
+	private Usuario usuario;
+	private List<Usuario> usuarios;
 }

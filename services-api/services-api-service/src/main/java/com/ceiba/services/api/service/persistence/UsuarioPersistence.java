@@ -1,6 +1,7 @@
 package com.ceiba.services.api.service.persistence;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,6 +18,20 @@ public class UsuarioPersistence implements UsuarioPort {
 	@Override
 	public List<Usuario> getUsuarios() {
 		return StreamSupport.stream(usuarioRepository.findAll().spliterator(), false).collect(Collectors.toList());
+	}
+
+	@Override
+	public Usuario getUsuario(Long id) {
+		Usuario resp = null;
+		Optional<Usuario> u = usuarioRepository.findById(id);
+		if (u.isPresent())
+			resp = u.get();
+		return resp;
+	}
+
+	@Override
+	public List<Usuario> getUsuariosByNombre(String nombre) {
+		return usuarioRepository.findByNombre(nombre);
 	}
 
 }

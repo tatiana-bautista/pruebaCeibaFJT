@@ -1,6 +1,8 @@
 package com.ceiba.services.api.service;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,9 +10,12 @@ import org.springframework.stereotype.Service;
 import com.ceiba.services.api.common.dto.RequestService;
 import com.ceiba.services.api.common.dto.ResponseService;
 import com.ceiba.services.api.service.domain.Libro;
+import com.ceiba.services.api.service.domain.Prestamo;
+import com.ceiba.services.api.service.domain.Usuario;
 import com.ceiba.services.api.service.port.in.LibroUseCase;
 import com.ceiba.services.api.service.port.out.LibroPort;
 import com.ceiba.services.api.service.port.out.PrestamoPort;
+import com.ceiba.services.api.service.port.out.UsuarioPort;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class LibroService implements LibroUseCase {
 	private final LibroPort libroPort;
 	private final PrestamoPort prestamoPort;
+	private final UsuarioPort usuarioPort;
 
 	@Override
 	public ResponseService consultar(RequestService req) {
@@ -75,8 +81,8 @@ public class LibroService implements LibroUseCase {
 		ResponseService resp = new ResponseService();
 		if (!req.getId().isEmpty()) {
 			Libro l = libroPort.getLibro(Long.parseLong(req.getId()));
-			if(l != null)
-				if(libroPort.eliminar(l))
+			if (l != null)
+				if (libroPort.eliminar(l))
 					resp.setMensage("libro eliminado satisfactoriamente");
 				else
 					resp.setError("libro no eliminado");
@@ -89,13 +95,61 @@ public class LibroService implements LibroUseCase {
 
 	@Override
 	public ResponseService prestar(RequestService req) {
+		ResponseService resp = new ResponseService();
+		if (!req.getIdLibro().isEmpty()) {
+			Libro l = libroPort.getLibro(Long.parseLong(req.getIdLibro()));
+			if (l != null) {
+				if (!req.getIdUsuario().isEmpty()) {
+					Usuario u = usuarioPort.getUsuario(Long.parseLong(req.getIdUsuario()));
+					if (u != null) {
+						if (!isPalindrome(l.getIsbn())) {
+							Prestamo p = new Prestamo();
+							p.setIdLibro(l.getId());
+							p.setIdUsuario(u.getId());
+							p.setFechaPrestamo(new Timestamp(new Date().getTime()));
+							if (isGreaterThan(l.getIsbn(), 30))
+								p.setFechaEntregaMaxima(
+										new java.sql.Date(calculateMaxDate(Calendar.getInstance(), 15).getTime()));
+							if (prestamoPort.nuevo(p)) {
+								resp.setMensage("prestamo guardado satisfactoriamente");
+							} else
+								resp.setError("error al guardar prestamo");
+						} else
+							resp.setError("los libros palíndromos solo se pueden utilizar en la biblioteca");
+					} else
+						resp.setError("usuario no encontrado");
+				} else
+					resp.setError("se debe especificar el codigo id del usuario");
+			} else
+				resp.setError("libro no encontrado");
+		} else
+			resp.setError("se debe especificar el codigo id del libro");
+		return resp;
+	}
 
-		// validar si el isbn del libro es palidrome ("los libros palíndromos solo se
-		// pueden utilizar en la biblioteca")
-		// validar si el los digitos suman mas de 30 y calcular fechaEntregaMaxima (15
-		// dias, tener en cuenta fines de semana)
-		// insertar en la tabla prestamo
-		return null;
+	private boolean isPalindrome(String word) {
+		StringBuilder sb = new StringBuilder(word);
+		String reverseWord = sb.reverse().toString();
+		return word.equals(reverseWord);
+	}
+
+	private boolean isGreaterThan(String word, int max) {
+		int sum = 0;
+		for (int start = 0, end = word.length() - 1; start < end; ++start) {
+			if (Character.isDigit(word.charAt(start)))
+				sum += Character.getNumericValue(word.charAt(start));
+		}
+		return (sum > max);
+	}
+
+	private Date calculateMaxDate(Calendar fecha, int diffDays) {
+		while (diffDays > 0) {
+			if (fecha.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+				diffDays--;
+			}
+			fecha.add(Calendar.DATE, 1);
+		}
+		return fecha.getTime();
 	}
 
 }

@@ -17,6 +17,6 @@ public class V1Controller {
 
 	@GetMapping("/echo")
 	public ResponseEntity<ResponseService> echo() throws Exception {
-		return new ResponseEntity<>(new ResponseService("hola mundo"), HttpStatus.OK);
+		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 }

@@ -16,4 +16,6 @@ public class RequestService {
 	private String nombre;
 	private String isbn;
 	private String estado;
+	private String idLibro;
+	private String idUsuario;
 }
